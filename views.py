@@ -32,6 +32,9 @@ class PropietarioListJson(LoginRequiredMixin, BaseDatatableView):
     columns = ['propietario_nombre', 'direccion', 'telefono', 'observacion', 'show_url']
     order_columns = ['propietario_nombre', 'direccion', 'telefono', 'observacion']
 
+    def get_initial_queryset(self):
+        qs = super(PropietarioListJson, self).get_initial_queryset()
+        return qs.filter(usuario=self.request.user.id)
 
 
     #
@@ -54,6 +57,12 @@ class PropietarioCreation(LoginRequiredMixin, CreateView):
     template_name = 'animalchic/forms/propietario_form.html'
     success_url = reverse_lazy('animalchic:list_propietarios')
     fields = ['propietario_nombre', 'direccion', 'telefono', 'observacion']
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.usuario = self.request.user
+        self.object.save()
+        return super(PropietarioCreation, self).form_valid(form)
 
 class PropietarioUpdate(LoginRequiredMixin, UpdateView):
     model = Propietario
@@ -92,6 +101,10 @@ class PacienteListJson(BaseDatatableView):
     model = Paciente
     columns = ['propietario.propietario_nombre', 'paciente_nombre', 'especie', 'raza', 'sexo', 'show_url']
     order_columns = ['propietario.propietario_nombre', 'paciente_nombre', 'especie', 'raza', 'sexo']
+
+    def get_initial_queryset(self):
+        qs = super(PropietarioListJson, self).get_initial_queryset()
+        return qs.filter(usuario=self.request.user.id)
 
     # def get_initial_queryset(self):
     #     qs = super(PacienteListJson, self).get_initial_queryset()
@@ -136,10 +149,9 @@ class PacienteCreation(LoginRequiredMixin, CreateView):
             return reverse_lazy('animalchic:list_pacientes')
 
     def form_valid(self, form):
-        #print(form)
         self.object = form.save(commit=False)
+        self.object.usuario = self.request.user
         self.object.save()
-        print(object)
         return super(PacienteCreation, self).form_valid(form)
 
 class PacienteUpdate(LoginRequiredMixin, UpdateView):
@@ -184,7 +196,7 @@ class VacunaListJson(BaseDatatableView):
 
     def get_initial_queryset(self):
         qs = super(VacunaListJson, self).get_initial_queryset()
-        return qs.filter(paciente__id=self.kwargs['pk_paciente'])
+        return qs.filter(paciente__id=self.kwargs['pk_paciente'], usuario=self.request.user.id)
 
 class VacunaDetail(LoginRequiredMixin, DetailView):
     model = Vacuna
@@ -218,6 +230,7 @@ class VacunaCreation(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.paciente = self.get_paciente()
+        self.object.usuario = self.request.user
         self.object.save()
         return super(VacunaCreation, self).form_valid(form)
 
@@ -276,7 +289,7 @@ class EnfermedadListJson(BaseDatatableView):
 
     def get_initial_queryset(self):
         qs = super(EnfermedadListJson, self).get_initial_queryset()
-        return qs.filter(paciente__id=self.kwargs['pk_paciente'])
+        return qs.filter(paciente__id=self.kwargs['pk_paciente'], usuario=self.request.user.id)
 
 class EnfermedadDetail(LoginRequiredMixin, DetailView):
     model = Enfermedad
@@ -310,6 +323,7 @@ class EnfermedadCreation(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.paciente = self.get_paciente()
+        self.object.usuario = self.request.user
         self.object.save()
         return super(EnfermedadCreation, self).form_valid(form)
 
@@ -368,8 +382,7 @@ class AntiparasitarioListJson(BaseDatatableView):
 
     def get_initial_queryset(self):
         qs = super(AntiparasitarioListJson, self).get_initial_queryset()
-        return qs.filter(paciente__id=self.kwargs['pk_paciente'])
-
+        return qs.filter(paciente__id=self.kwargs['pk_paciente'], usuario=self.request.user.id)
 
 class AntiparasitarioDetail(LoginRequiredMixin, DetailView):
     model = Antiparasitario
@@ -384,7 +397,6 @@ class AntiparasitarioDetail(LoginRequiredMixin, DetailView):
         context = super(AntiparasitarioDetail, self).get_context_data(**kwargs)
         context['paciente_id'] = self.kwargs['pk_paciente']
         return context
-
 
 class AntiparasitarioCreation(LoginRequiredMixin, CreateView):
     model = Antiparasitario
@@ -406,12 +418,12 @@ class AntiparasitarioCreation(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.paciente = self.get_paciente()
+        self.object.usuario = self.request.user
         self.object.save()
         return super(AntiparasitarioCreation, self).form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('animalchic:list_antiparasitarios', kwargs={'pk_paciente': self.get_paciente().id})
-
 
 class AntiparasitarioUpdate(LoginRequiredMixin, UpdateView):
     model = Antiparasitario
