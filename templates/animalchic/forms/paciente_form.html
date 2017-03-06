@@ -1,0 +1,40 @@
+{% extends 'animalchic/index.html' %}
+{% load bootstrap3 %}
+{# Load CSS and JavaScript #}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display a form #}
+{% block content %}
+<div class="row">
+    <div class="col-md-6 col-centered panel panel-footer">
+        <form class="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if nuevo_propietario_paciente %}
+                <div class="form-group">
+                    <label class="control-label" for="{{form.propietario.id_for_label}}">Propietario</label>
+                    <select class="form-control" id="{{form.propietario.id_for_label}}" name="{{form.propietario.name}}" readonly>
+                        <option value="{{propietario_id}}"selected>
+                            {{propietario_nombre}}
+                        </option>
+                    </select>
+                </div>
+                {% bootstrap_form form exclude='propietario' %}
+            {% else %}
+                {% bootstrap_form form %}
+            {% endif %}
+            {% buttons %}
+            {% if edit %}
+            <a href="{% url 'animalchic:detail_paciente' paciente_id %}" class="btn btn-primary">Regresar</a>
+            {% elif nuevo_propietario_paciente %}
+            <a href="{% url 'animalchic:list_propietario_pacientes' propietario_id %}" class="btn btn-primary">Regresar</a>
+            {% else %}
+            <a href="{% url 'animalchic:list_pacientes' %}" class="btn btn-primary">Regresar</a>
+            {% endif %}
+            <input class="btn btn-success" type="submit" value="Guardar" />
+            {% endbuttons %}
+        </form>
+    </div>
+</div>
+{% endblock %}

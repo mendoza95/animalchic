@@ -1,0 +1,75 @@
+{% extends 'animalchic/index.html' %}
+
+{% load i18n staticfiles %}
+
+{% block extra_head %}
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
+    <script src="{% static "js/datatable_function.js" %}"></script>
+    <script type="text/javascript">
+        var USERS_LIST_JSON_URL = "{% url 'animalchic:list_enfermedades_json' paciente_id %}";
+        // translations for datatables
+
+        var dt_language = {
+            "emptyTable":     "{% trans "No hay datos disponibles" %}",
+            "info":           "{% trans "Mostrando _START_ a _END_ de _TOTAL_ entradas" %}",
+            "infoEmpty":      "{% trans "Mostrando 0 a 0 de 0 entradas" %}",
+            "infoFiltered":   "{% trans "(filtrando de _MAX_ del total de entradas)" %}",
+            "infoPostFix":    "",
+            "thousands":      ",",
+            "lengthMenu":     "{% trans "Mostrando _MENU_ entradas" %}",
+            "loadingRecords": "{% trans "Cargando..." %}",
+            "processing":     "{% trans "Procesando..." %}",
+            "search":         "{% trans "Buscar:" %}",
+            "zeroRecords":    "{% trans "No se han encontrado registros" %}",
+            "paginate": {
+                "first":      "{% trans "Primero" %}",
+                "last":       "{% trans "Ultimo" %}",
+                "next":       "{% trans "Siguiente" %}",
+                "previous":   "{% trans "Previo" %}"
+            },
+            "aria": {
+                "sortAscending":  "{% trans ": activar el ordenamiento de columnas ascendentes" %}",
+                "sortDescending": "{% trans ": activar el ordenamiento de columnas descendentes" %}"
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-8">
+                <h2>Enfermedades</h2>
+                <h2>Paciente: <i>{{paciente_nombre}}</i></h2>
+
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover datatable">
+                <thead>
+                    <tr class="active">
+                        <th>Descripcion</th>
+                        <th>Fecha</th>
+                        <th>Proxima Vacuna</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+
+                </tfoot>
+{#                {% for enfermedad in object_list %}#}
+{#                <tr data-href="{% url 'animalchic:detail_enfermedad' paciente_id enfermedad.id %}">#}
+{#                    <th>{{enfermedad.descripcion}}</th>#}
+{#                    <th>{{enfermedad.fecha}}</th>#}
+{#                    <th>{{enfermedad.tratamiento}}</th>#}
+{#                </tr>#}
+{#                {% endfor %}#}
+            </table>
+            <a href="{% url 'animalchic:detail_paciente' paciente_id %}" class="btn btn-primary">Regresar</a>
+            <a class="btn btn-success" href="{% url 'animalchic:new_enfermedad' paciente_id %}">Agregar Enfermedad</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

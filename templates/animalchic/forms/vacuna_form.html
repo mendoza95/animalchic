@@ -1,0 +1,19 @@
+{% extends 'animalchic/index.html' %}
+{% load bootstrap3 %}
+{% block content %}
+<div class="row">
+    <div class="col-md-6 col-centered panel panel-footer">
+        <h1>{{paciente_nombre}}</h1>
+        <form class="" method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% if edit %}
+            <a href="{% url 'animalchic:detail_vacuna' paciente_id vacuna_id %}" class="btn btn-primary">Regresar</a>
+            {% else %}
+            <a href="{% url 'animalchic:list_vacunas' paciente_id%}" class="btn btn-primary">Regresar</a>
+            {% endif %}
+            <input class="btn btn-success" type="submit" value="Guardar" />
+        </form>
+    </div>
+</div>
+{% endblock %}

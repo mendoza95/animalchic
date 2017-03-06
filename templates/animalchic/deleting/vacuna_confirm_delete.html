@@ -1,0 +1,11 @@
+{% extends 'animalchic/listing/vacuna_list.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">{% csrf_token %}
+            ¿Estás seguro que deseas borrar la vacuna "{{ object }}"?
+            <input type="submit" value="Si" />
+        </form>
+    </div>
+</div>
+{% endblock %}

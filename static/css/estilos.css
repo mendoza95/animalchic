@@ -1,0 +1,22 @@
+img{
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+
+.logo{
+  width: 180px;
+}
+
+.col-centered{
+  float: none;
+  margin: 0 auto;
+}
+
+tbody tr:hover td{
+  background-color: #7f60bd;
+}
+
+.espacio{
+  padding-bottom: 150px;
+  margin-top: 20px;
+}

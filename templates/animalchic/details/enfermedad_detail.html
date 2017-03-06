@@ -1,0 +1,61 @@
+{% extends 'animalchic/index.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 col-centered">
+            <table class="table table-hover">
+                <thead class="table-head">
+                    <tr>
+                        <td><h2>{{ enfermedad.descripcion }}</h2></td>
+                    </tr>
+                </thead>
+                <tbody class="table-body">
+                    <tr>
+                        <td>Paciente</td>
+                        <td><i>{{ enfermedad.paciente.paciente_nombre }}</i></td>
+                    </tr>
+                    <tr>
+                        <td>Fecha</td>
+                        <td><i>{{ enfermedad.fecha }}</i></td>
+                    </tr>
+                    <tr>
+                        <td>Tratamiento</td>
+                        <td><i>{{ enfermedad.tratamiento }}</i></td>
+                    </tr>
+                    <tr>
+                        <td>Documento adjunto</td>
+                        {% if enfermedad.enfermedad_archivo.name != ''%}
+                            <td> <a href="{{enfermedad.enfermedad_archivo.url}}">{{enfermedad.enfermedad_archivo.name}}</a></td>
+                        {% else %}
+                            <td>No disponible</td>
+                        {% endif %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-centered">
+            <a class="btn btn-primary" href="{% url 'animalchic:list_enfermedades' paciente_id %}">Regresar</a>
+            <a href="{% url 'animalchic:edit_enfermedad' paciente_id enfermedad.id %}" class="btn btn-primary">Editar</a>
+            <a data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger">Eliminar</a>
+        </div>
+    </div>
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Confirmar Eliminacion</h2>
+                </div>
+                <form method="post">{% csrf_token %}
+                    <div class="modal-body">
+                        ¿Estás seguro que deseas borrar la enfermedad "{{ enfermedad.descripcion }}"?
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <a href="{% url 'animalchic:delete_enfermedad' paciente_id enfermedad.id %}" class="btn btn-danger btn-ok">Si</a>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

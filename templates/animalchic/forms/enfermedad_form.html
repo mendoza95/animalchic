@@ -1,0 +1,20 @@
+{% extends 'animalchic/index.html' %}
+{% load bootstrap3 %}
+{% block content %}
+<div class="row">
+    <div class="col-md-6 col-centered panel panel-footer">
+        <h1>{{paciente_nombre}}</h1>
+        <form class="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form form exclude='enfermedad_archivo'%}
+            {% bootstrap_field form.enfermedad_archivo set_required='False'%}
+            {% if edit %}
+            <a href="{% url 'animalchic:detail_enfermedad' paciente_id enfermedad_id %}" class="btn btn-primary">Regresar</a>
+            {% else %}
+            <a href="{% url 'animalchic:list_enfermedades' paciente_id %}" class="btn btn-primary">Regresar</a>
+            {% endif %}
+            <input class="btn btn-success" type="submit" value="Guardar" />
+        </form>
+    </div>
+</div>
+{% endblock %}

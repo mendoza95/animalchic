@@ -1,0 +1,59 @@
+{% extends 'animalchic/index.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 col-centered">
+            <table class="table table-hover">
+                <thead class="table-head">
+                    <tr>
+                        <td><h1>{{ propietario.propietario_nombre }}</h1></td>
+                    </tr>
+                </thead>
+                <tbody class="table-body">
+                    <tr>
+                        <td>Direccion</td>
+                        <td><i>{{ propietario.direccion }}</i></td>
+                    </tr>
+                    <tr>
+                        <td>Telefono</td>
+                        <td><i>{{ propietario.telefono }}</i></td>
+                    </tr>
+                    <tr>
+                        <td>Observacion</td>
+                        <td><i>{{ propietario.observacion }}</i></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>
+
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-centered">
+            <a class="btn btn-primary" href="{% url 'animalchic:list_propietarios' %}">Regresar</a>
+            <a href="{% url 'animalchic:edit_propietario' propietario.id %}" class="btn btn-primary">Editar</a>
+            <a data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger">Eliminar</a>
+{#            <a class="btn btn-info" href="{% url 'animalchic:list_propietario_pacientes' propietario.id%}">Pacientes</a>#}
+        </div>
+    </div>
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Confirmar Eliminacion</h2>
+                </div>
+                <form method="post">{% csrf_token %}
+                    <div class="modal-body">
+                        ¿Estás seguro que deseas borrar el propietario "{{ propietario.propietario_nombre }}"?
+                        <b>Se eliminaran todos los pacientes asociado a el</b>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <a href="{% url 'animalchic:delete_propietario' propietario.id %}" class="btn btn-danger btn-ok">Si</a>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock%}

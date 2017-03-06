@@ -1,0 +1,22 @@
+{% extends 'animalchic/index.html' %}
+{% load bootstrap3 %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 col-centered panel panel-footer">
+            <form class="" method="post">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% buttons %}
+                {% if edit %}
+                    <a href="{% url 'animalchic:detail_propietario' propietario_id %}" class="btn btn-primary">Regresar</a>
+                {% else %}
+                    <a href="{% url 'animalchic:list_propietarios' %}" class="btn btn-primary">Regresar</a>
+                {% endif %}
+                <button class="btn btn-success" type="submit">
+                    {% bootstrap_icon "start" %}Guardar
+                </button>
+                {% endbuttons %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

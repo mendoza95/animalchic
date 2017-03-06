@@ -1,0 +1,61 @@
+{% extends 'animalchic/index.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 col-centered">
+        <table class="table table-hover">
+            <thead class="table-head">
+                <tr>
+                    <td><h1>{{ vacuna.descripcion }}</h1></td>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+                <tr>
+                    <td>Paciente</td>
+                    <td><i>{{ vacuna.paciente.paciente_nombre }}</i></td>
+                </tr>
+            <tr>
+                <td>Fecha</td>
+                <td><i>{{ vacuna.fecha }}</i></td>
+            </tr>
+            <tr>
+                <td>Proxima Vacuna</td>
+                <td><i>{{ vacuna.proxima_vacuna }}</i></td>
+            </tr>
+            <tr>
+                <td>Veterinario</td>
+                <td><i>{{ vacuna.veterinario }}</i></td>
+            </tr>
+            </tbody>
+        </table>
+        <p>
+
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-centered">
+        <a class="btn btn-primary" href="{% url 'animalchic:list_vacunas' paciente_id %}">Regresar</a>
+        <a href="{% url 'animalchic:edit_vacuna' paciente_id vacuna.id %}" class="btn btn-primary">Editar</a>
+        <a data-target="#confirm-delete" data-toggle="modal" class="btn btn-danger">Eliminar</a>
+    </div>
+</div>
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirmar Eliminacion</h2>
+            </div>
+            <form method="post">{% csrf_token %}
+                <div class="modal-body">
+                    ¿Estás seguro que deseas borrar la vacuna "{{ vacuna.descripcion }}"?
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a href="{% url 'animalchic:delete_vacuna' paciente_id vacuna.id %}" class="btn btn-danger btn-ok">Si</a>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
