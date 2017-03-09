@@ -9,7 +9,7 @@ class Propietario(models.Model):
     direccion = models.CharField(max_length=100)
     telefono = models.CharField(max_length=20)
     observacion = models.CharField(max_length=100)
-    usuario = models.ForeignKey(User, default=User.objects.get(pk=1).pk)
+    usuario = models.ForeignKey(User, default=1)
 
     def __str__(self):
         return self.propietario_nombre
@@ -17,7 +17,7 @@ class Propietario(models.Model):
     '''  '''
     @property
     def show_url(self):
-        url = "/animalchic/propietarios/"+ str(self.id)  +"/"
+        url = "/propietarios/"+ str(self.id)  +"/"
         return " <a href=' " + url + " ', class='btn btn-info'>Detalle</a> "
 
 class Paciente(models.Model):
@@ -33,7 +33,7 @@ class Paciente(models.Model):
     fecha_de_nacimiento  = models.DateField('Fecha de Nacimiento')
     pelaje = models.CharField(max_length=15)
     foto = models.ImageField(blank=True, upload_to='pet_images/')
-    usuario = models.ForeignKey(User, default=User.objects.get(pk=1).pk)
+    usuario = models.ForeignKey(User, default=1)
 
     def __str__(self):
         return self.paciente_nombre
@@ -49,7 +49,7 @@ class Paciente(models.Model):
 
     @property
     def show_url(self):
-        url = "/animalchic/pacientes/" + str(self.id) + "/"
+        url = "/pacientes/" + str(self.id) + "/"
         return " <a href=' " + url + " ', class='btn btn-info'>Detalle</a> "
 
 class Vacuna(models.Model):
@@ -58,7 +58,7 @@ class Vacuna(models.Model):
     descripcion = models.CharField(max_length=30)
     proxima_vacuna = models.DateField('fecha de proxima vacunacion')
     veterinario = models.CharField(max_length=30)
-    usuario = models.ForeignKey(User, default=User.objects.get(pk=1).pk)
+    usuario = models.ForeignKey(User, default=1)
 
     def __str__(self):
         return self.descripcion
@@ -70,7 +70,7 @@ class Vacuna(models.Model):
 
     @property
     def show_url(self):
-        url = "/animalchic/pacientes/" + str(self.paciente.id) + "/vacunas/"+ str(self.id)+"/"
+        url = "/pacientes/" + str(self.paciente.id) + "/vacunas/"+ str(self.id)+"/"
         return " <a href=' " + url + " ', class='btn btn-info'>Detalle</a> "
 
 class Enfermedad(models.Model):
@@ -79,7 +79,7 @@ class Enfermedad(models.Model):
     fecha = models.DateField('Fecha de Deteccion')
     tratamiento = models.CharField(max_length=50)
     enfermedad_archivo = models.FileField(blank=True, upload_to='enfermedades_archivos/')
-    usuario = models.ForeignKey(User, default=User.objects.get(pk=1).pk)
+    usuario = models.ForeignKey(User, default=1)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -91,7 +91,7 @@ class Enfermedad(models.Model):
 
     @property
     def show_url(self):
-        url = "/animalchic/pacientes/" + str(self.paciente.id) + "/enfermedades/" + str(self.id) + "/"
+        url = "/pacientes/" + str(self.paciente.id) + "/enfermedades/" + str(self.id) + "/"
         return " <a href=' " + url + " ', class='btn btn-info'>Detalle</a> "
 
 class Antiparasitario(models.Model):
@@ -99,7 +99,7 @@ class Antiparasitario(models.Model):
     fecha = models.DateField('Fecha de aplicacion')
     vermifugos = models.CharField(max_length=20)
     proxima_aplicacion = models.DateField('Proxima aplicacion')
-    usuario = models.ForeignKey(User, default=User.objects.get(pk=1).pk)
+    usuario = models.ForeignKey(User, default=1)
 
     def __str__(self):
         return self.vermifugos
@@ -111,7 +111,7 @@ class Antiparasitario(models.Model):
 
     @property
     def show_url(self):
-        url = "/animalchic/pacientes/" + str(self.paciente.id) + "/antiparasitarios/" + str(self.id) + "/"
+        url = "/pacientes/" + str(self.paciente.id) + "/antiparasitarios/" + str(self.id) + "/"
         return " <a href=' " + url + " ', class='btn btn-info'>Detalle</a> "
 
 @receiver(post_delete, sender=Paciente)

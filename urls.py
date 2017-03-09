@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.contrib.auth import views
 from .views import (
     PropietarioCreation,
     PropietarioDetail,
@@ -20,7 +21,7 @@ from .views import (
     AntiparasitarioCreation,
     AntiparasitarioDetail,
     AntiparasitarioUpdate,
-    index,
+    home,
     delete_antiparasitario,
     delete_enfermedad,
     delete_vacuna,
@@ -30,12 +31,14 @@ from .views import (
     PacienteListJson,
     VacunaListJson,
     EnfermedadListJson,
-    AntiparasitarioListJson
+    AntiparasitarioListJson,
 )
 
 app_name = 'animalchic'
 urlpatterns = [
-    url(r'^$', index, name='index'),
+    url(r'^$', home, name='home'),
+    url(r'^login/$', views.login, kwargs={'template_name': 'registration/login.html'}, name='login'),
+    url(r'^logout/$', views.logout,kwargs={'next_page': '/'}, name='logout'),
     ############ Urls para modelo Propietario ##############################
     url(r'^propietarios/$', PropietarioList.as_view(), name='list_propietarios'),
     url(r'^propietarios_json/$',PropietarioListJson.as_view(), name='list_propietarios_json'),

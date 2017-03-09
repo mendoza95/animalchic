@@ -8,16 +8,13 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import VacunaForm, EnfermedadForm, AntiparasitarioForm, PacienteForm
 from django.contrib.auth.decorators import login_required
-from django_datatables_view.base_datatable_view import BaseDatatableView
+from .django_datatables_view_modificado.base_datatable_view import BaseDatatableView
 
 # Create your views here.
 
-
-def index(request):
-    if request.user.is_authenticated():
-        return render(request, 'animalchic/main.html')
-    else:
-        return render(request, 'registration/login.html')
+@login_required(login_url="login/")
+def home(request):
+    return render(request, 'animalchic/main.html')
 
 ############################# Vistas Genericas para el modelo Propietario #############################
 
@@ -103,7 +100,7 @@ class PacienteListJson(BaseDatatableView):
     order_columns = ['propietario.propietario_nombre', 'paciente_nombre', 'especie', 'raza', 'sexo']
 
     def get_initial_queryset(self):
-        qs = super(PropietarioListJson, self).get_initial_queryset()
+        qs = super(PacienteListJson, self).get_initial_queryset()
         return qs.filter(usuario=self.request.user.id)
 
     # def get_initial_queryset(self):

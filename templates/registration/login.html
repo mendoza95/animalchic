@@ -51,7 +51,7 @@
                         		</div>
                             </div>
                             <div class="form-bottom">
-			                    <form role="form" action="{% url 'login' %}" method="post" class="login-form">
+			                    <form role="form" action="{% url 'animalchic:login' %}" method="post" class="login-form">
                                     {% csrf_token %}
 			                    	<div class="form-group">
 			                    		<label class="sr-only" for="{{ form.username.name }}" >Nombre de Usuario</label>
@@ -62,7 +62,7 @@
 			                        	<input type="password"  name="{{ form.password.name }}" placeholder="Password..." class="form-password form-control" id="{{ form.password.id_for_label }}">
 			                        </div>
                                     <button type="submit" class="btn">Acceder</button>
-                                    <input type="hidden" name="next" value="{{ next }}" />
+                                    <input type="hidden" name="next" value="/" />
 			                    </form>
 		                    </div>
                         </div>
